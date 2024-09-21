@@ -2,24 +2,38 @@ const codes = document.querySelectorAll('.code');
 
 codes.forEach((code, index) => {
     code.addEventListener('keydown', (e) => {
-        // Handle number inputs
         if (e.key >= 0 && e.key <= 9) {
-            codes[index].value = '';  // Clear the current input
-            setTimeout(() => codes[index + 1]?.focus(), 10);  // Focus the next input after typing
+            codes[index].value = ''; // Clear the current input
+            
+            // Move to the next input and apply focus
+            setTimeout(() => {
+                codes[index].classList.remove('focused'); // Remove focus class from the current input
+                if (codes[index + 1]) {
+                    codes[index + 1].focus(); // Focus the next input
+                    codes[index + 1].classList.add('focused'); // Add focus class to the next input
+                }
+            }, 10); 
         } 
-        // Handle backspace
         else if (e.key === 'Backspace') {
-            codes[index].value = '';  // Clear the current input
-            setTimeout(() => codes[index - 1]?.focus(), 10);  // Focus the previous input on backspace
+            codes[index].value = ''; // Clear the current input
+            
+            // Move to the previous input and apply focus
+            setTimeout(() => {
+                codes[index].classList.remove('focused'); // Remove focus class from the current input
+                if (codes[index - 1]) {
+                    codes[index - 1].focus(); // Focus the previous input
+                    codes[index - 1].classList.add('focused'); // Add focus class to the previous input
+                }
+            }, 10); 
         }
     });
 
-    // Add focus event for Cypress testing
+    // Ensure focus class is applied when an input gains focus
     code.addEventListener('focus', () => {
         code.classList.add('focused');
     });
 
-    // Remove focus event when blurred
+    // Ensure focus class is removed when an input loses focus
     code.addEventListener('blur', () => {
         code.classList.remove('focused');
     });
